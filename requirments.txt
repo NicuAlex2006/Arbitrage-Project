@@ -1,0 +1,1 @@
+pandas numpy requests wikipedia certifi io
