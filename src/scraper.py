@@ -1,4 +1,3 @@
-import wikipedia
 import requests
 import pandas as pd
 import certifi
@@ -9,7 +8,7 @@ def scrape_tickers_SP_500():
     url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
     # Try direct read_html from URL first
     try:
-        df_list = pd.read_html(url)
+        df_list = pd.re
         df = df_list[0]
     except Exception:
         # Try fetching the page using requests with certifi's CA bundle (secure)

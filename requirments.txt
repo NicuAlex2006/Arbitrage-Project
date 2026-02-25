@@ -1,1 +1,1 @@
-pandas numpy requests wikipedia certifi io
+pandas numpy requests wikipedia certifi yfinance statsmodels
