@@ -1,1 +1,1 @@
-pandas numpy requests wikipedia certifi yfinance statsmodels
+pandas numpy requests wikipedia certifi yfinance statsmodels io os matplotlib
