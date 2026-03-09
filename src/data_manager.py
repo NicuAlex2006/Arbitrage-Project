@@ -9,7 +9,7 @@ class DataManager:
         if not os.path.exists(data_folder):
             os.makedirs(data_folder)
 
-    def get_data(self, tickers, start="2023-01-01", end="2025-01-01"):
+    def get_data(self, tickers, start="2023-01-01", end="2026-01-01"):
         """Loads local data if it exists, otherwise downloads it."""
         if os.path.exists(self.file_path):
             print("Local data found. Loading from CSV instead of downloading...")
@@ -18,7 +18,7 @@ class DataManager:
             print("Local data not found. Downloading from Yahoo Finance...")
             return self.download_and_save(tickers, start, end)
 
-    def download_and_save(self, tickers, start="2023-01-01", end="2025-01-01"):
+    def download_and_save(self, tickers, start="2023-01-01", end="2026-01-01"):
         """Downloads close prices and saves to CSV."""
         if isinstance(tickers, pd.Series):
             tickers = tickers.tolist()
