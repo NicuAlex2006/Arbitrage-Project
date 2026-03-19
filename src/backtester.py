@@ -15,18 +15,14 @@ class Backtester:
         """
         df = pd.DataFrame({'a': self.a, 'b': self.b, 'z': self.z})
         
-        # Initialize with NaN so forward-fill (ffill) works properly to hold positions
         df['position'] = np.nan
         
-        # Simple signal logic
         df.loc[df['z'] > entry_threshold, 'position'] = -1    # Short spread
         df.loc[df['z'] < -entry_threshold, 'position'] = 1    # Long spread
         df.loc[abs(df['z']) < exit_threshold, 'position'] = 0 # Exit
         
-        # Forward fill positions to stay in the trade, then fill remaining NaNs with 0 (flat)
         df['position'] = df['position'].ffill().fillna(0)
         
-        # Calculate Returns (simplified)
         df['spread_return'] = (df['a'].pct_change() - df['b'].pct_change())
         df['strategy_return'] = df['position'].shift(1) * df['spread_return']
         df['cumulative_return'] = df['strategy_return'].cumsum()
