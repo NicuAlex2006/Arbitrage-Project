@@ -26,13 +26,11 @@ class DataManager:
         print(f"Downloading data for {len(tickers)} tickers...")
         data = yf.download(tickers, start=start, end=end)['Close']
         
-        # Clean: Remove tickers with more than 10% missing values
         data = data.dropna(thresh=len(data) * 0.9, axis=1)
-        data = data.ffill() # Fill minor gaps
+        data = data.ffill()
         
         data.to_csv(self.file_path)
         return data
 
     def load_local_data(self):
-        """Loads data from the local CSV file."""
         return pd.read_csv(self.file_path, index_col=0, parse_dates=True)

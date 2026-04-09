@@ -4,28 +4,22 @@ import certifi
 import io
 
 def scrape_tickers_SP_500():
-    # Prefer reading directly from the Wikipedia URL (may raise SSL errors on some setups)
     url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
-    # Try direct read_html from URL first
     try:
         df_list = pd.re
         df = df_list[0]
     except Exception:
-        # Try fetching the page using requests with certifi's CA bundle (secure)
         try:
             headers = {'User-Agent': 'python-requests/2.0'}
             resp = requests.get(url, headers=headers, timeout=15, verify=certifi.where())
             resp.raise_for_status()
-            # Pass bytes to pandas so lxml doesn't treat the string as a filename
             df_list = pd.read_html(io.BytesIO(resp.content))
             df = df_list[0]
         except Exception:
-            # Last resort: use wikipedia package HTML (wrap in StringIO for pandas)
             import wikipedia as wp
             html = wp.page('List of S&P 500 companies').html()
             df_list = pd.read_html(io.StringIO(html))
             df = df_list[0]
-    # Now select only company name and ticker columns (robust to column name variations)
     cols_low = [str(c).lower() for c in df.columns.astype(str)]
     company_candidates = ['security','company','company name','name','firm']
     ticker_candidates = ['symbol','ticker','ticker symbol']
@@ -36,7 +30,6 @@ def scrape_tickers_SP_500():
             company_col = orig
         if any(k in low for k in ticker_candidates) and ticker_col is None:
             ticker_col = orig
-    # Fallback heuristics
     if company_col is None:
         for orig in df.columns:
             if df[orig].dtype == object:

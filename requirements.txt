@@ -1,0 +1,8 @@
+pandas
+numpy
+requests
+wikipedia
+certifi
+yfinance
+statsmodels
+matplotlib
